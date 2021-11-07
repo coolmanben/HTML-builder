@@ -1,11 +1,11 @@
 
-function buildStyles( dirname ) {
+function buildStyles( dirname, styleFileName ) {
 
     const fs = require("fs");
     const path = require('path');
     let fromFolderDir = path.join( dirname, 'styles')
     let toFolderDir = path.join( dirname, 'project-dist')
-    let toFile = path.join( dirname, 'project-dist', 'bundle.css')
+    let toFile = path.join( dirname, 'project-dist', styleFileName )
 
     fs.mkdir(toFolderDir, { recursive: true }, (err) => {
         if (err) {
@@ -34,8 +34,8 @@ function buildStyles( dirname ) {
     } )
 } 
 
-buildStyles(__dirname)
+buildStyles(__dirname, 'bundle.css')
 
-module.exports = exports = function(dirname) {
-    buildStyles(dirname)
+module.exports = exports = function(dirname, styleFileName) {
+    buildStyles(dirname, styleFileName)
 };

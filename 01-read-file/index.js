@@ -2,7 +2,9 @@ const fs = require("fs");
 
 const path = require('path');
 
-let stream = fs.createReadStream('./01-read-file/text.txt')
+let dirFile = path.join( path.dirname(__dirname), '01-read-file', 'text.txt' );
+
+let stream = fs.createReadStream( dirFile )
 
 setTimeout(
   () =>

@@ -2,7 +2,9 @@ const fs = require("fs");
 
 const path = require('path');
 
-let recordStream = fs.createWriteStream('./02-write-file/text.txt');
+let dirFile = path.join( path.dirname(__dirname), '02-write-file', 'text.txt' );
+
+let recordStream = fs.createWriteStream( dirFile  );
 
 const readline = require('readline');
 
