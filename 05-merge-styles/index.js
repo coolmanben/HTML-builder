@@ -27,7 +27,7 @@ function buildStyles( dirname, styleFileName ) {
             if ( file.isFile() && ( path.extname(file.name).split('.').pop() == 'css' ) ) {  
                 const inputStream = fs.createReadStream( path.join( fromFolderDir, file.name), 'utf-8' );
                 inputStream.on('data', (data) => {
-                    recordStream.write( data.toString()  );
+                    recordStream.write( data.toString() + '\n' );
                 })
             }
         })

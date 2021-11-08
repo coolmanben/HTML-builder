@@ -10,8 +10,12 @@ fs.readdir(fileFolderDir, {withFileTypes: true} , ( err, data) => {
     }
     data.forEach(file => {
         if (file.isFile() ) {  
-            fs.stat( fileFolderDir + file.name , (err, stats) => {
-                console.log( path.parse(fileFolderDir + file.name).name + ' - ' + path.extname(fileFolderDir + file.name).split('.').pop() + ' - '+  Math.trunc(stats.size/1000) + 'kb' )
+            fs.stat( path.join(fileFolderDir, file.name) , (err, stats) => {
+                if (err) {
+                    return console.log(err);
+                }
+
+                console.log( path.parse( file.name).name + ' - ' + path.extname( file.name).split('.').pop() + ' - ' +  Math.trunc(stats.size/1000) + 'kb' )
             })
         }
     })

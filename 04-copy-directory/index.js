@@ -1,35 +1,36 @@
-const fs = require("fs");
+function copyFolder( dirname, folderNameFrom, folderNameTo ) {
+    const fs = require("fs");
 
-const path = require('path');
+    const path = require('path');
 
-let fromFolderDir = path.join( __dirname, 'files')
-let toFolderDir = path.join( __dirname, 'files-copy')
+    let fromFolderDir = path.join( dirname, folderNameFrom)
+    let toFolderDir = path.join( dirname, folderNameTo)
 
-fs.mkdir(toFolderDir, { recursive: true }, (err) => {
-    if (err) {
-        return console.log(err);
-    }
- });
-
-fs.readdir(fromFolderDir, {withFileTypes: true} , ( err, data) => {
-    if (err) {
-        return console.log(err);
-    }
-    data.forEach(file => {
-        if (file.isFile() ) {  
-            
-            fs.copyFile( path.join( __dirname, 'files', file.name) , path.join( __dirname, 'files-copy', file.name), (err) => {
-                if (err) {
-                    return console.log(err);
-                }
-            } );
+    fs.mkdir(toFolderDir, { recursive: true }, (err) => {
+        if (err) {
+            return console.log(err);
         }
-    })
-} )
+    });
 
+    fs.readdir(fromFolderDir, {withFileTypes: true} , ( err, data) => {
+        if (err) {
+            return console.log(err);
+        }
+        data.forEach(file => {
+            if (file.isFile() ) {  
+                
+                fs.copyFile( path.join( dirname, folderNameFrom, file.name) , path.join( __dirname, folderNameTo, file.name), (err) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                } );
+            }
+        })
+    } )
+}
 
- 
+copyFolder(__dirname, 'files', 'files-copy');
 
-
-
-
+module.exports = exports = function(dirname, folderNameFrom, folderNameTo) {
+    copyFolder(dirname, folderNameFrom, folderNameTo);
+};

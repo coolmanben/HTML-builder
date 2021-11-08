@@ -1,8 +1,9 @@
- const fs = require("fs");
+const fs = require("fs");
 
 const path = require('path');
 
 let buildStylesFile = path.join( path.dirname(__dirname), '05-merge-styles', 'index.js' );
+
 let fileFolderDir = path.join( __dirname, 'components' );
 let dirFile = path.join( __dirname, 'template.html' );
 let toFile = path.join( __dirname, 'project-dist', 'index.html');
@@ -14,8 +15,6 @@ var buildStyles = require(buildStylesFile);
 buildStyles(__dirname, 'style.css');
 
 let stream = fs.createReadStream( dirFile );
-
-const recordStream = fs.createWriteStream( toFile ); 
 
 stream.on('data', (data) => {
     sample += data.toString();
@@ -34,7 +33,7 @@ stream.on('data', (data) => {
                         if (formatFile == 'html') { 
                             if ( sample.indexOf( nameFile ) > -1 ) {
                                 sample = sample.replace( '{{' + nameFile + '}}', data);
-                                fs.writeFile( toFile, sample, function(){console.log('done' )});
+                                fs.writeFile( toFile, sample, function(){ console.log('done' )});
                             }
                         }
                     }); 
@@ -43,3 +42,40 @@ stream.on('data', (data) => {
         })
     })
 })
+
+function copyAllfiles( dirname, folderNameFrom, folderNameTo ) {
+    const fs = require("fs");
+
+    const path = require('path');
+
+    let fromFolderDir = path.join( dirname, folderNameFrom)
+    let toFolderDir = path.join( dirname, folderNameTo)
+
+    fs.mkdir(toFolderDir, { recursive: true }, (err) => {
+        if (err) {
+            return console.log(err);
+        }
+    });
+
+    fs.readdir(fromFolderDir, {withFileTypes: true} , ( err, data) => {
+        if (err) {
+            return console.log(err);
+        }
+        data.forEach(file => {
+            if (file.isFile() ) {  
+          
+                fs.copyFile( path.join( dirname, folderNameFrom, file.name) , path.join( dirname, folderNameTo, file.name), (err) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                } );
+            }
+            else {
+               
+                copyAllfiles( dirname, folderNameFrom + '//' + file.name, folderNameTo + '//' + file.name  );
+            }
+        })
+    } )
+}
+
+copyAllfiles( __dirname, 'assets', 'project-dist//assets' );
