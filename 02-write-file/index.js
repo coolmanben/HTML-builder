@@ -16,7 +16,7 @@ const rl = readline.createInterface({
 rl.write( 'Hi, write some text: ');
 
 rl.on('line', (line) => {
-    if ( line == '**exit**') {
+    if ( line == 'exit') {
         console.log( "Goodbye");
         rl.close();
     }

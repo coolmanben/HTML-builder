@@ -12,6 +12,7 @@ function buildStyles( dirname, styleFileName ) {
             return console.log(err);
         }
     });
+    
 
     const recordStream = fs.createWriteStream( toFile ); 
 
