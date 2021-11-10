@@ -11,19 +11,34 @@ function copyFolder( dirname, folderNameFrom, folderNameTo ) {
         if (err) {
             return console.log(err);
         }
-        fs.readdir(fromFolderDir, {withFileTypes: true} , ( err, data) => {
-
+        fs.readdir(fromFolderDir , ( err, data) => {
             if (err) {
                 return console.log(err);
             }
             data.forEach(file => {
-                if (file.isFile() ) {  
-                    fs.copyFile( path.join( dirname, folderNameFrom, file.name) , path.join( __dirname, folderNameTo, file.name), (err) => {
+                    fs.copyFile( path.join( dirname, folderNameFrom, file) , path.join( __dirname, folderNameTo, file), (err) => {
                         if (err) {
                             return console.log(err);
                         }
                     } );
+            })
+            fs.readdir(toFolderDir , ( err, dataUp) => {
+
+                if (err) {
+                    return console.log(err);
                 }
+                dataUp.forEach(fileUp => {
+                    console.log( !data.includes( fileUp ))
+                    console.log( fileUp )
+                    console.log( data )
+                    if ( !data.includes( fileUp ) ) {  
+                        fs.unlink(  path.join( __dirname, folderNameTo, fileUp), (err) => {
+                            if (err) {
+                                return console.log(err);
+                           }
+                        } );
+                    }
+                })   
             })
         })
     });
